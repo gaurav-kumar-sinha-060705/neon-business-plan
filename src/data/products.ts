@@ -158,7 +158,9 @@ export const generateProducts = (category: string, count: number = 15): Product[
       id: `${category}-${i}`,
       name: names[nameIndex],
       price,
-      image: categoryImage,
+      image: categoryImageMap[key] && i === 1 
+        ? categoryImage 
+        : `https://source.unsplash.com/800x800/?luxury,${encodeURIComponent(key)},${encodeURIComponent(names[nameIndex])}&sig=${i}`,
       category: category.charAt(0).toUpperCase() + category.slice(1),
       material: categoryMaterials[materialIndex],
       type: categoryTypes[typeIndex]

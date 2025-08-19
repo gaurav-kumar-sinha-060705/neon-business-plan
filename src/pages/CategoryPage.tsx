@@ -23,8 +23,31 @@ export const CategoryPage = () => {
     types: []
   });
 
-  const allProducts = generateProducts(category || 'all', 15);
-  const categoryName = category?.charAt(0).toUpperCase() + category?.slice(1) || 'All Products';
+  const rawCategory = (category || 'all').toLowerCase();
+  const normalizeSlug = (slug: string) => {
+    const s = slug.replace(/\s|-/g, '');
+    switch (s) {
+      case 'techgadgets':
+        return 'tech';
+      case 'homedecor':
+        return 'home';
+      case 'all':
+        return 'all';
+      default:
+        return s;
+    }
+  };
+  const normalizedKey = normalizeSlug(rawCategory);
+  const displayNameMap: Record<string, string> = { tech: 'Tech Gadgets', home: 'Home Decor' };
+  const categoryName = normalizedKey === 'all'
+    ? 'All Products'
+    : displayNameMap[normalizedKey] || (normalizedKey.charAt(0).toUpperCase() + normalizedKey.slice(1));
+
+  const baseCategories = ['watches','bags','jewelry','perfume','shoes','accessories','apparel','eyewear','tech','home'];
+
+  const allProducts = normalizedKey === 'all'
+    ? baseCategories.flatMap(cat => generateProducts(cat, 2)).slice(0, 15)
+    : generateProducts(normalizedKey, 15);
 
   // Filter and sort products
   const filteredProducts = useMemo(() => {
@@ -88,7 +111,7 @@ export const CategoryPage = () => {
           {/* Filters and Controls */}
           <div className="flex items-center justify-between mb-8 p-4 bg-card/50 backdrop-blur-sm border border-border/20 rounded-lg">
             <div className="flex items-center space-x-4">
-              <ProductFilter category={category || 'all'} onFiltersChange={setFilters}>
+              <ProductFilter category={normalizedKey} onFiltersChange={setFilters}>
                 <Button variant="outline" className="btn-outline-luxury">
                   <Filter className="h-4 w-4 mr-2" />
                   Filter

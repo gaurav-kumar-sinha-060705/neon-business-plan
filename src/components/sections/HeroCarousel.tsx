@@ -81,7 +81,7 @@ const heroSlides = [
   {
     id: 9,
     image: tech1,
-    category: "tech",
+    category: "techgadgets",
     title: "Innovation Refined",
     subtitle: "Luxury Tech Collection",
     description: "Where cutting-edge technology meets timeless elegance",
@@ -89,7 +89,7 @@ const heroSlides = [
   {
     id: 10,
     image: home1,
-    category: "home",
+    category: "homedecor",
     title: "Living Luxuriously",
     subtitle: "Luxury Home Collection",
     description: "Transform your space with our curated home essentials",

@@ -7,7 +7,7 @@ const categories = [
   { name: "Eyewear", icon: Glasses, href: "/category/eyewear", color: "from-orange-500 to-orange-600" },
   { name: "Jewelry", icon: Gem, href: "/category/jewelry", color: "from-yellow-600 to-yellow-700" },
   { name: "Apparel", icon: Shirt, href: "/category/apparel", color: "from-amber-600 to-amber-700" },
-  { name: "Tech Gadgets", icon: Zap, href: "/category/tech-gadgets", color: "from-yellow-500 to-amber-500" },
+  { name: "Tech Gadgets", icon: Zap, href: "/category/techgadgets", color: "from-yellow-500 to-amber-500" },
 ];
 
 export const Categories = () => {
