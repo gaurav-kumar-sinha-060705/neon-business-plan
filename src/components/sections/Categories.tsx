@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Watch, ShoppingBag, Glasses, Gem, Shirt, Zap } from "lucide-react";
+import { Watch, ShoppingBag, Glasses, Gem, Shirt, Zap, Home, SprayCan, Sparkles, Star } from "lucide-react";
 
 const categories = [
   { name: "Watches", icon: Watch, href: "/category/watches", color: "from-yellow-500 to-yellow-600" },
@@ -8,6 +8,10 @@ const categories = [
   { name: "Jewelry", icon: Gem, href: "/category/jewelry", color: "from-yellow-600 to-yellow-700" },
   { name: "Apparel", icon: Shirt, href: "/category/apparel", color: "from-amber-600 to-amber-700" },
   { name: "Tech Gadgets", icon: Zap, href: "/category/techgadgets", color: "from-yellow-500 to-amber-500" },
+  { name: "Shoes", icon: Star, href: "/category/shoes", color: "from-yellow-400 to-amber-500" },
+  { name: "Accessories", icon: Sparkles, href: "/category/accessories", color: "from-amber-400 to-yellow-500" },
+  { name: "Perfume", icon: SprayCan, href: "/category/perfume", color: "from-yellow-700 to-amber-700" },
+  { name: "Home Decor", icon: Home, href: "/category/homedecor", color: "from-amber-700 to-yellow-700" },
 ];
 
 export const Categories = () => {

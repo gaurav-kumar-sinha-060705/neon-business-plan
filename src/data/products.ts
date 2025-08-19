@@ -124,7 +124,9 @@ const types: Record<string, string[]> = {
 
 export const generateProducts = (category: string, count: number = 15): Product[] => {
   const products: Product[] = [];
-  const key = category.toLowerCase();
+  const normalized = category.toLowerCase().replace(/\s+/g, "");
+  const aliasMap: Record<string, string> = { techgadgets: "tech", homedecor: "home" };
+  const key = aliasMap[normalized] || normalized;
   const names = productNames[key] || [`${category} Item`];
   const categoryMaterials = materials[key] || ["Premium"];
   const categoryTypes = types[key] || ["Standard"];
@@ -158,9 +160,7 @@ export const generateProducts = (category: string, count: number = 15): Product[
       id: `${category}-${i}`,
       name: names[nameIndex],
       price,
-      image: categoryImageMap[key] && i === 1 
-        ? categoryImage 
-        : `https://source.unsplash.com/800x800/?luxury,${encodeURIComponent(key)},${encodeURIComponent(names[nameIndex])}&sig=${i}`,
+        image: categoryImage,
       category: category.charAt(0).toUpperCase() + category.slice(1),
       material: categoryMaterials[materialIndex],
       type: categoryTypes[typeIndex]
