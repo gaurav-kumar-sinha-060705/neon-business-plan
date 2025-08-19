@@ -2,6 +2,12 @@ import watch1 from "@/assets/watch-1.jpg";
 import bag1 from "@/assets/bag-1.jpg";
 import jewelry1 from "@/assets/jewelry-1.jpg";
 import perfume1 from "@/assets/perfume-1.jpg";
+import shoes1 from "@/assets/shoes-1.jpg";
+import accessories1 from "@/assets/accessories-1.jpg";
+import apparel1 from "@/assets/apparel-1.jpg";
+import eyewear1 from "@/assets/eyewear-1.jpg";
+import tech1 from "@/assets/tech-1.jpg";
+import home1 from "@/assets/home-1.jpg";
 
 export interface Product {
   id: string;
@@ -19,6 +25,12 @@ const categoryImageMap: Record<string, string> = {
   bags: bag1,
   jewelry: jewelry1,
   perfume: perfume1,
+  shoes: shoes1,
+  accessories: accessories1,
+  apparel: apparel1,
+  eyewear: eyewear1,
+  tech: tech1,
+  home: home1,
 };
 
 const productNames: Record<string, string[]> = {
@@ -110,7 +122,7 @@ const types: Record<string, string[]> = {
   home: ["Decor", "Lighting", "Furniture", "Textiles"]
 };
 
-export const generateProducts = (category: string, count: number = 30): Product[] => {
+export const generateProducts = (category: string, count: number = 15): Product[] => {
   const products: Product[] = [];
   const key = category.toLowerCase();
   const names = productNames[key] || [`${category} Item`];
@@ -144,7 +156,7 @@ export const generateProducts = (category: string, count: number = 30): Product[
     
     products.push({
       id: `${category}-${i}`,
-      name: names[nameIndex] + (names.length < count ? ` ${Math.ceil(i / names.length)}` : ''),
+      name: names[nameIndex],
       price,
       image: categoryImage,
       category: category.charAt(0).toUpperCase() + category.slice(1),

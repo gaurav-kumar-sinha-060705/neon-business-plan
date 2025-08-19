@@ -23,7 +23,7 @@ export const CategoryPage = () => {
     types: []
   });
 
-  const allProducts = generateProducts(category || 'all', 30);
+  const allProducts = generateProducts(category || 'all', 15);
   const categoryName = category?.charAt(0).toUpperCase() + category?.slice(1) || 'All Products';
 
   // Filter and sort products
@@ -140,11 +140,21 @@ export const CategoryPage = () => {
                 <ProductCard product={product} />
               </div>
             ))}
-          </div>
-
-          {/* Load More */}
-          <div className="text-center mt-12 text-muted-foreground">
-            More products will be available soon.
+            
+            {/* More Styles Coming Soon Card */}
+            <div className="animate-fade-in" style={{ animationDelay: `${filteredProducts.length * 50}ms` }}>
+              <div className="h-full bg-card/50 backdrop-blur-sm border border-border/20 rounded-lg p-6 flex flex-col items-center justify-center text-center min-h-[300px]">
+                <div className="text-primary/60 mb-4">
+                  <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-display font-semibold mb-2">More Styles Coming Soon</h3>
+                <p className="text-muted-foreground text-sm">
+                  We're curating additional premium pieces for this collection. Stay tuned!
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </main>

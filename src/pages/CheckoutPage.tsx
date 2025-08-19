@@ -42,9 +42,6 @@ export const CheckoutPage = () => {
     link.href = window.location.href;
   }, []);
 
-  const itemsRaw = items
-    .map((i) => `${i.quantity}x ${i.name} @${i.price}`)
-    .join(", ");
 
   const cartItems = items.map((i) => ({
     sku: i.id,
@@ -92,7 +89,6 @@ export const CheckoutPage = () => {
           country: form.country,
           pincode: form.pincode,
         },
-        items_raw: itemsRaw,
         payment_method: form.payment_method,
         notes: form.notes,
         currency: "INR",

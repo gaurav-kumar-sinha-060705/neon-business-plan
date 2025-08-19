@@ -6,6 +6,12 @@ import watch1 from "@/assets/watch-1.jpg";
 import bag1 from "@/assets/bag-1.jpg";
 import jewelry1 from "@/assets/jewelry-1.jpg";
 import perfume1 from "@/assets/perfume-1.jpg";
+import shoes1 from "@/assets/shoes-1.jpg";
+import accessories1 from "@/assets/accessories-1.jpg";
+import apparel1 from "@/assets/apparel-1.jpg";
+import eyewear1 from "@/assets/eyewear-1.jpg";
+import tech1 from "@/assets/tech-1.jpg";
+import home1 from "@/assets/home-1.jpg";
 
 const heroSlides = [
   {
@@ -39,6 +45,54 @@ const heroSlides = [
     title: "Signature Scents",
     subtitle: "Luxury Fragrance Collection",
     description: "Captivating fragrances crafted by renowned perfumers",
+  },
+  {
+    id: 5,
+    image: shoes1,
+    category: "shoes",
+    title: "Executive Footwear",
+    subtitle: "Luxury Shoes Collection",
+    description: "Premium footwear crafted from finest materials",
+  },
+  {
+    id: 6,
+    image: accessories1,
+    category: "accessories",
+    title: "Distinguished Details",
+    subtitle: "Luxury Accessories Collection",
+    description: "Refined accessories that complete your sophisticated look",
+  },
+  {
+    id: 7,
+    image: apparel1,
+    category: "apparel",
+    title: "Couture Excellence",
+    subtitle: "Luxury Apparel Collection",
+    description: "Tailored perfection in every stitch and silhouette",
+  },
+  {
+    id: 8,
+    image: eyewear1,
+    category: "eyewear",
+    title: "Visionary Style",
+    subtitle: "Luxury Eyewear Collection",
+    description: "Designer frames that define sophisticated vision",
+  },
+  {
+    id: 9,
+    image: tech1,
+    category: "tech",
+    title: "Innovation Refined",
+    subtitle: "Luxury Tech Collection",
+    description: "Where cutting-edge technology meets timeless elegance",
+  },
+  {
+    id: 10,
+    image: home1,
+    category: "home",
+    title: "Living Luxuriously",
+    subtitle: "Luxury Home Collection",
+    description: "Transform your space with our curated home essentials",
   },
 ];
 
