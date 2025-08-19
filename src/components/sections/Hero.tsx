@@ -20,22 +20,15 @@ export const Hero = () => {
       <div className="relative z-10 text-center max-w-4xl mx-auto px-4 animate-fade-in">
         <div className="inline-flex items-center space-x-2 mb-6 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full">
           <Sparkles className="h-4 w-4 text-primary" />
-          <span className="text-sm font-medium text-primary">Luxury Collection 2024</span>
+          <span className="text-sm font-medium text-primary">FW24 Collection</span>
         </div>
 
         <h1 className="text-5xl md:text-7xl font-display font-bold mb-6 animate-slide-up">
-          <span className="bg-gradient-luxury bg-clip-text text-transparent">
-            NEON
-          </span>
-          <br />
-          <span className="text-foreground">
-            Luxury Redefined
-          </span>
+          Luxury Redefined
         </h1>
 
         <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto animate-slide-up [animation-delay:200ms]">
-          Discover our exclusive collection of premium watches, jewelry, and accessories. 
-          Where elegance meets innovation.
+          The FW24 Collection by NEON. Where elegance meets innovation.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 animate-slide-up [animation-delay:400ms]">
@@ -54,18 +47,20 @@ export const Hero = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-8 mt-16 pt-8 border-t border-border/20 animate-fade-in [animation-delay:600ms]">
-          <div className="text-center">
-            <div className="text-3xl font-display font-bold text-primary mb-2">500+</div>
-            <div className="text-sm text-muted-foreground">Premium Products</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-display font-bold text-primary mb-2">50K+</div>
-            <div className="text-sm text-muted-foreground">Happy Customers</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-display font-bold text-primary mb-2">10+</div>
-            <div className="text-sm text-muted-foreground">Years of Excellence</div>
+        <div className="mt-16 animate-fade-in [animation-delay:600ms]">
+          <div className="grid grid-cols-3 gap-8 p-6 bg-card/60 backdrop-blur-sm border border-border/20 rounded-xl">
+            <div className="text-center">
+              <div className="text-3xl font-display font-bold text-primary mb-2">500+</div>
+              <div className="text-sm text-muted-foreground">Premium Products</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-display font-bold text-primary mb-2">50K+</div>
+              <div className="text-sm text-muted-foreground">Happy Customers</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-display font-bold text-primary mb-2">10+</div>
+              <div className="text-sm text-muted-foreground">Years of Excellence</div>
+            </div>
           </div>
         </div>
       </div>

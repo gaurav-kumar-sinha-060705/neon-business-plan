@@ -4,18 +4,36 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Filter, Grid, List } from "lucide-react";
 import { useState } from "react";
+import watch1 from "@/assets/watch-1.jpg";
+import bag1 from "@/assets/bag-1.jpg";
+import jewelry1 from "@/assets/jewelry-1.jpg";
+import perfume1 from "@/assets/perfume-1.jpg";
 
 // Mock product data - in a real app, this would come from an API
+const categoryImageMap: Record<string, string> = {
+  watches: watch1,
+  bags: bag1,
+  jewelry: jewelry1,
+  perfume: perfume1,
+};
 const generateProducts = (category: string, count: number = 30) => {
-  const products = [];
+  const products = [] as Array<{
+    id: string;
+    name: string;
+    price: number;
+    image: string;
+    category: string;
+  }>;
   const basePrice = Math.floor(Math.random() * 50000) + 10000;
+  const key = (category || 'all').toLowerCase();
+  const fallbackImage = `https://source.unsplash.com/800x800/?${encodeURIComponent(key)}`;
   
   for (let i = 1; i <= count; i++) {
     products.push({
       id: `${category}-${i}`,
       name: `${category.charAt(0).toUpperCase() + category.slice(1)} Item ${i}`,
-      price: basePrice + (Math.floor(Math.random() * 100000)),
-      image: `https://images.unsplash.com/photo-1611117775350-ac3950990985?w=800&h=800&fit=crop&crop=center`,
+      price: basePrice + Math.floor(Math.random() * 100000),
+      image: categoryImageMap[key] || fallbackImage,
       category: category.charAt(0).toUpperCase() + category.slice(1)
     });
   }
@@ -103,10 +121,8 @@ export const CategoryPage = () => {
           </div>
 
           {/* Load More */}
-          <div className="text-center mt-12">
-            <Button className="btn-outline-luxury px-8 py-3">
-              Load More Products
-            </Button>
+          <div className="text-center mt-12 text-muted-foreground">
+            More products will be available soon.
           </div>
         </div>
       </main>
