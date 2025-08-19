@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ShoppingBag, Menu, X, Search } from "lucide-react";
+import { ShoppingBag, Menu, X } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
+import { SearchDialog } from "@/components/search/SearchDialog";
 
 const categories = [
   { name: "Watches", slug: "watches" },
@@ -69,9 +70,7 @@ export const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="icon" className="hidden md:flex">
-              <Search className="h-5 w-5" />
-            </Button>
+            <SearchDialog />
             
             <Link to="/cart">
               <Button variant="ghost" size="icon" className="relative">

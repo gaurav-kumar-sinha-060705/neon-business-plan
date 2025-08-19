@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Watch, ShoppingBag, Glasses, Gem, Shirt, Zap, Home, SprayCan, Sparkles, Star } from "lucide-react";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 const categories = [
   { name: "Watches", icon: Watch, href: "/category/watches", color: "from-yellow-500 to-yellow-600" },
@@ -27,25 +28,38 @@ export const Categories = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-          {categories.map((category, index) => {
-            const Icon = category.icon;
-            return (
-              <Link
-                key={category.name}
-                to={category.href}
-                className="group relative p-8 text-center card-luxury gold-glow transition-all duration-500 hover:scale-105 animate-fade-in"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r ${category.color} mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <Icon className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="font-medium text-foreground group-hover:text-primary transition-colors duration-300">
-                  {category.name}
-                </h3>
-              </Link>
-            );
-          })}
+        <div className="relative max-w-6xl mx-auto">
+          <Carousel
+            opts={{
+              align: "center",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {categories.map((category, index) => {
+                const Icon = category.icon;
+                return (
+                  <CarouselItem key={category.name} className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/5">
+                    <Link
+                      to={category.href}
+                      className="group relative p-6 md:p-8 text-center card-luxury gold-glow transition-all duration-500 hover:scale-105 animate-fade-in block"
+                      style={{ animationDelay: `${index * 100}ms` }}
+                    >
+                      <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r ${category.color} mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                        <Icon className="h-8 w-8 text-white" />
+                      </div>
+                      <h3 className="font-medium text-foreground group-hover:text-primary transition-colors duration-300">
+                        {category.name}
+                      </h3>
+                    </Link>
+                  </CarouselItem>
+                );
+              })}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex -left-12" />
+            <CarouselNext className="hidden md:flex -right-12" />
+          </Carousel>
         </div>
       </div>
     </section>
