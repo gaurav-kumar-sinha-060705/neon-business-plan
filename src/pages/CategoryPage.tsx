@@ -3,50 +3,68 @@ import { Header } from "@/components/layout/Header";
 import { ProductCard } from "@/components/product/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Filter, Grid, List } from "lucide-react";
-import { useState } from "react";
-import watch1 from "@/assets/watch-1.jpg";
-import bag1 from "@/assets/bag-1.jpg";
-import jewelry1 from "@/assets/jewelry-1.jpg";
-import perfume1 from "@/assets/perfume-1.jpg";
+import { useState, useMemo } from "react";
+import { ProductFilter } from "@/components/filters/ProductFilter";
+import { generateProducts, Product } from "@/data/products";
 
-// Mock product data - in a real app, this would come from an API
-const categoryImageMap: Record<string, string> = {
-  watches: watch1,
-  bags: bag1,
-  jewelry: jewelry1,
-  perfume: perfume1,
-};
-const generateProducts = (category: string, count: number = 30) => {
-  const products = [] as Array<{
-    id: string;
-    name: string;
-    price: number;
-    image: string;
-    category: string;
-  }>;
-  const basePrice = Math.floor(Math.random() * 50000) + 10000;
-  const key = (category || 'all').toLowerCase();
-  const fallbackImage = `https://source.unsplash.com/800x800/?${encodeURIComponent(key)}`;
-  
-  for (let i = 1; i <= count; i++) {
-    products.push({
-      id: `${category}-${i}`,
-      name: `${category.charAt(0).toUpperCase() + category.slice(1)} Item ${i}`,
-      price: basePrice + Math.floor(Math.random() * 100000),
-      image: categoryImageMap[key] || fallbackImage,
-      category: category.charAt(0).toUpperCase() + category.slice(1)
-    });
-  }
-  return products;
-};
+interface FilterOptions {
+  priceRange: [number, number];
+  materials: string[];
+  types: string[];
+}
 
 export const CategoryPage = () => {
   const { category } = useParams<{ category: string }>();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [sortBy, setSortBy] = useState('featured');
+  const [filters, setFilters] = useState<FilterOptions>({
+    priceRange: [0, 200000],
+    materials: [],
+    types: []
+  });
 
-  const products = generateProducts(category || 'all', 30);
+  const allProducts = generateProducts(category || 'all', 30);
   const categoryName = category?.charAt(0).toUpperCase() + category?.slice(1) || 'All Products';
+
+  // Filter and sort products
+  const filteredProducts = useMemo(() => {
+    let filtered = allProducts.filter(product => {
+      // Price filter
+      if (product.price < filters.priceRange[0] || product.price > filters.priceRange[1]) {
+        return false;
+      }
+      
+      // Material filter
+      if (filters.materials.length > 0 && product.material && !filters.materials.includes(product.material)) {
+        return false;
+      }
+      
+      // Type filter
+      if (filters.types.length > 0 && product.type && !filters.types.includes(product.type)) {
+        return false;
+      }
+      
+      return true;
+    });
+
+    // Sort products
+    switch (sortBy) {
+      case 'price-low':
+        filtered.sort((a, b) => a.price - b.price);
+        break;
+      case 'price-high':
+        filtered.sort((a, b) => b.price - a.price);
+        break;
+      case 'newest':
+        filtered.reverse();
+        break;
+      default:
+        // Keep original order for featured
+        break;
+    }
+
+    return filtered;
+  }, [allProducts, filters, sortBy]);
 
   return (
     <div className="min-h-screen">
@@ -58,20 +76,24 @@ export const CategoryPage = () => {
           <div className="mb-8">
             <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">
               {categoryName}
-              <span className="text-primary ml-2">({products.length})</span>
             </h1>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-muted-foreground mb-2">
               Discover our premium collection of {categoryName.toLowerCase()}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Showing {filteredProducts.length} of {allProducts.length} results
             </p>
           </div>
 
           {/* Filters and Controls */}
           <div className="flex items-center justify-between mb-8 p-4 bg-card/50 backdrop-blur-sm border border-border/20 rounded-lg">
             <div className="flex items-center space-x-4">
-              <Button variant="outline" className="btn-outline-luxury">
-                <Filter className="h-4 w-4 mr-2" />
-                Filter
-              </Button>
+              <ProductFilter category={category || 'all'} onFiltersChange={setFilters}>
+                <Button variant="outline" className="btn-outline-luxury">
+                  <Filter className="h-4 w-4 mr-2" />
+                  Filter
+                </Button>
+              </ProductFilter>
               
               <select 
                 value={sortBy}
@@ -109,7 +131,7 @@ export const CategoryPage = () => {
               ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
               : 'grid-cols-1'
           }`}>
-            {products.map((product, index) => (
+            {filteredProducts.map((product, index) => (
               <div
                 key={product.id}
                 className="animate-fade-in"

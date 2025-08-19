@@ -3,13 +3,7 @@ import { ShoppingBag, Heart } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
 import { useState } from "react";
 
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  category: string;
-}
+import { Product } from "@/data/products";
 
 interface ProductCardProps {
   product: Product;
@@ -59,25 +53,19 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       </div>
 
       {/* Product Info */}
-      <div className="space-y-2">
-        <div className="text-xs text-muted-foreground uppercase tracking-wider">
-          {product.category}
-        </div>
-        <h3 className="font-display text-lg font-medium text-foreground group-hover:text-primary transition-colors duration-300">
+      <div className="space-y-3">
+        <h3 className="font-display text-lg font-medium text-foreground group-hover:text-primary transition-colors duration-300 line-clamp-2">
           {product.name}
         </h3>
-        <div className="flex items-center justify-between">
+        <div className="space-y-2">
           <span className="text-xl font-semibold text-primary">
             ₹{product.price.toLocaleString()}
           </span>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleAddToCart}
-            className="btn-outline-luxury text-xs px-3 py-1"
-          >
-            Add to Cart
-          </Button>
+          {product.material && (
+            <div className="text-xs text-muted-foreground">
+              {product.material} • {product.type}
+            </div>
+          )}
         </div>
       </div>
     </div>
