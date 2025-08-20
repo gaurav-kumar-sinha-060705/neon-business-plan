@@ -29,6 +29,7 @@ export const CheckoutPage = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     document.title = "Checkout | NEON Luxury";
@@ -51,11 +52,39 @@ export const CheckoutPage = () => {
     line_total: i.price * i.quantity,
   }));
 
+  const validateField = (name: string, value: string): string => {
+    switch (name) {
+      case 'customer_email':
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return !emailRegex.test(value) ? 'Please enter a valid email address' : '';
+      case 'customer_phone':
+        const phoneRegex = /^[6-9]\d{9}$/;
+        return value && !phoneRegex.test(value) ? 'Please enter a valid 10-digit mobile number' : '';
+      case 'pincode':
+        const pincodeRegex = /^\d{6}$/;
+        return value && !pincodeRegex.test(value) ? 'Please enter a valid 6-digit pincode' : '';
+      case 'customer_name':
+        return value.trim().length < 2 ? 'Name must be at least 2 characters' : '';
+      default:
+        return '';
+    }
+  };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
+    
+    // Clear existing error and validate
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+    
+    const error = validateField(name, value);
+    if (error) {
+      setErrors(prev => ({ ...prev, [name]: error }));
+    }
   };
 
   const orderId = useMemo(() => {
@@ -70,8 +99,32 @@ export const CheckoutPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!form.customer_name || !form.customer_email || items.length === 0) {
-      alert("Please complete required fields and ensure your cart is not empty.");
+    // Validate all fields
+    const newErrors: Record<string, string> = {};
+    
+    // Required field validation
+    if (!form.customer_name.trim()) newErrors.customer_name = 'Name is required';
+    if (!form.customer_email.trim()) newErrors.customer_email = 'Email is required';
+    if (!form.customer_phone.trim()) newErrors.customer_phone = 'Mobile number is required';
+    if (!form.address.trim()) newErrors.address = 'Address is required';
+    if (!form.city.trim()) newErrors.city = 'City is required';
+    if (!form.state.trim()) newErrors.state = 'State is required';
+    if (!form.pincode.trim()) newErrors.pincode = 'Pincode is required';
+
+    // Field format validation
+    Object.keys(form).forEach(key => {
+      const value = form[key as keyof typeof form];
+      const error = validateField(key, value);
+      if (error) newErrors[key] = error;
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    if (items.length === 0) {
+      alert("Your cart is empty.");
       return;
     }
 
@@ -183,9 +236,13 @@ export const CheckoutPage = () => {
                       name="customer_name"
                       value={form.customer_name}
                       onChange={handleChange}
-                      placeholder="Your name"
+                      placeholder="Your full name"
                       required
+                      className={errors.customer_name ? "border-red-500" : ""}
                     />
+                    {errors.customer_name && (
+                      <p className="text-red-500 text-sm mt-1">{errors.customer_name}</p>
+                    )}
                   </div>
                   <div>
                     <Label htmlFor="customer_email">Email*</Label>
@@ -197,17 +254,26 @@ export const CheckoutPage = () => {
                       onChange={handleChange}
                       placeholder="you@example.com"
                       required
+                      className={errors.customer_email ? "border-red-500" : ""}
                     />
+                    {errors.customer_email && (
+                      <p className="text-red-500 text-sm mt-1">{errors.customer_email}</p>
+                    )}
                   </div>
                   <div>
-                    <Label htmlFor="customer_phone">Phone</Label>
+                    <Label htmlFor="customer_phone">Mobile Number*</Label>
                     <Input
                       id="customer_phone"
                       name="customer_phone"
                       value={form.customer_phone}
                       onChange={handleChange}
-                      placeholder="+91-"
+                      placeholder="10-digit mobile number"
+                      required
+                      className={errors.customer_phone ? "border-red-500" : ""}
                     />
+                    {errors.customer_phone && (
+                      <p className="text-red-500 text-sm mt-1">{errors.customer_phone}</p>
+                    )}
                   </div>
                 </div>
               </section>
@@ -216,30 +282,75 @@ export const CheckoutPage = () => {
                 <h2 className="text-xl font-display font-bold mb-4">Shipping Address</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="md:col-span-2">
-                    <Label htmlFor="address">Address Line</Label>
+                    <Label htmlFor="address">Address Line (Street, Area)*</Label>
                     <Textarea
                       id="address"
                       name="address"
                       value={form.address}
                       onChange={handleChange}
-                      placeholder="Street, area"
+                      placeholder="Enter your street address and area"
+                      required
+                      className={errors.address ? "border-red-500" : ""}
+                    />
+                    {errors.address && (
+                      <p className="text-red-500 text-sm mt-1">{errors.address}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label htmlFor="city">City*</Label>
+                    <Input 
+                      id="city" 
+                      name="city" 
+                      value={form.city} 
+                      onChange={handleChange}
+                      placeholder="City"
+                      required
+                      className={errors.city ? "border-red-500" : ""}
+                    />
+                    {errors.city && (
+                      <p className="text-red-500 text-sm mt-1">{errors.city}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label htmlFor="state">State*</Label>
+                    <Input 
+                      id="state" 
+                      name="state" 
+                      value={form.state} 
+                      onChange={handleChange}
+                      placeholder="State"
+                      required
+                      className={errors.state ? "border-red-500" : ""}
+                    />
+                    {errors.state && (
+                      <p className="text-red-500 text-sm mt-1">{errors.state}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label htmlFor="country">Country*</Label>
+                    <Input 
+                      id="country" 
+                      name="country" 
+                      value={form.country} 
+                      onChange={handleChange}
+                      placeholder="Country"
+                      required
                     />
                   </div>
                   <div>
-                    <Label htmlFor="city">City</Label>
-                    <Input id="city" name="city" value={form.city} onChange={handleChange} />
-                  </div>
-                  <div>
-                    <Label htmlFor="state">State</Label>
-                    <Input id="state" name="state" value={form.state} onChange={handleChange} />
-                  </div>
-                  <div>
-                    <Label htmlFor="country">Country</Label>
-                    <Input id="country" name="country" value={form.country} onChange={handleChange} />
-                  </div>
-                  <div>
-                    <Label htmlFor="pincode">Pincode</Label>
-                    <Input id="pincode" name="pincode" value={form.pincode} onChange={handleChange} />
+                    <Label htmlFor="pincode">Pincode*</Label>
+                    <Input 
+                      id="pincode" 
+                      name="pincode" 
+                      value={form.pincode} 
+                      onChange={handleChange}
+                      placeholder="6-digit pincode"
+                      required
+                      className={errors.pincode ? "border-red-500" : ""}
+                    />
+                    {errors.pincode && (
+                      <p className="text-red-500 text-sm mt-1">{errors.pincode}</p>
+                    )}
                   </div>
                 </div>
               </section>
