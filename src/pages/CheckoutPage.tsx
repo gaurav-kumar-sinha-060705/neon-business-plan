@@ -130,38 +130,33 @@ export const CheckoutPage = () => {
 
     setIsSubmitting(true);
     try {
-      // Create flattened payload with individual item fields
-      const payload: Record<string, any> = {
+      // Create flat payload structure as requested
+      const payload = {
         order_id: orderId,
         customer_name: form.customer_name,
-        customer_email: form.customer_email,
-        customer_phone: form.customer_phone,
-        customer_address_line: form.address,
-        customer_address_city: form.city,
-        customer_address_state: form.state,
-        customer_address_country: form.country,
-        customer_address_pincode: form.pincode,
+        email: form.customer_email,
+        phone: form.customer_phone,
+        address_line: form.address,
+        city: form.city,
+        state: form.state,
+        country: form.country,
+        pincode: form.pincode,
         payment_method: form.payment_method,
         order_notes: form.notes,
         currency: "INR",
         order_status: "order placed",
+        All_Item_names: items.map(item => item.name).join(", "),
+        total_quantity: items.reduce((sum, item) => sum + item.quantity, 0),
         subtotal: subtotal,
         tax: tax,
         shipping: deliveryCharge,
         discount: 0,
         grand_total: total,
         delivery_charge: deliveryCharge,
-        delivery_location: form.city || form.pincode || ""
+        delivery_location: form.city || form.pincode || "",
+        timestamp: new Date().toISOString(),
+        source: "NEON - Luxury E-Commerce"
       };
-
-      // Add each item as separate fields
-      items.forEach((item, index) => {
-        const itemNum = index + 1;
-        payload[`item${itemNum}_name`] = item.name;
-        payload[`item${itemNum}_quantity`] = item.quantity;
-        payload[`item${itemNum}_unit_price`] = item.price;
-        payload[`item${itemNum}_total`] = item.price * item.quantity;
-      });
 
       await fetch(
         "https://gaurav060705.app.n8n.cloud/webhook/2b92c76d-5105-4d4e-a469-99674b6a5e98",
