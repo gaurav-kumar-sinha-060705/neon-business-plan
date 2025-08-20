@@ -2,41 +2,24 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import watch1 from "@/assets/watch-1.jpg";
-import jewelry1 from "@/assets/jewelry-1.jpg";
-import bag1 from "@/assets/bag-1.jpg";
-import perfume1 from "@/assets/perfume-1.jpg";
+import { generateProducts } from "@/data/products";
 
-const featuredProducts = [
-  {
-    id: "neon-chrono-01",
-    name: "Neon Chrono Elite",
-    price: 199999,
-    image: watch1,
-    category: "Watches"
-  },
-  {
-    id: "diamond-collection-01",
-    name: "Diamond Elegance Set",
-    price: 299999,
-    image: jewelry1,
-    category: "Jewelry"
-  },
-  {
-    id: "luxury-bag-01",
-    name: "Neon Signature Bag",
-    price: 89999,
-    image: bag1,
-    category: "Bags"
-  },
-  {
-    id: "noir-perfume-01",
-    name: "Neon Noir Essence",
-    price: 12999,
-    image: perfume1,
-    category: "Perfume"
-  }
-];
+// Get featured products from different categories
+const getFeaturedProducts = () => {
+  const categories = ['watches', 'jewelry', 'bags', 'perfume'];
+  const featuredProducts = [];
+  
+  categories.forEach(category => {
+    const products = generateProducts(category, 1);
+    if (products.length > 0) {
+      featuredProducts.push(products[0]);
+    }
+  });
+  
+  return featuredProducts;
+};
+
+const featuredProducts = getFeaturedProducts();
 
 export const FeaturedProducts = () => {
   return (

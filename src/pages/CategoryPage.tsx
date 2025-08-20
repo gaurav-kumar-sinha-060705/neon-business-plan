@@ -46,7 +46,7 @@ export const CategoryPage = () => {
   const baseCategories = ['watches','bags','jewelry','perfume','shoes','accessories','apparel','eyewear','tech','home'];
 
   const allProducts = normalizedKey === 'all'
-    ? baseCategories.flatMap(cat => generateProducts(cat, 2)).slice(0, 15)
+    ? baseCategories.flatMap(cat => generateProducts(cat, 15))
     : generateProducts(normalizedKey, 15);
 
   // Filter and sort products

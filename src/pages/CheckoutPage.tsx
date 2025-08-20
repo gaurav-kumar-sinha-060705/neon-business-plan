@@ -82,37 +82,32 @@ export const CheckoutPage = () => {
         customer_name: form.customer_name,
         customer_email: form.customer_email,
         customer_phone: form.customer_phone,
-        address: {
-          line1: form.address,
-          city: form.city,
-          state: form.state,
-          country: form.country,
-          pincode: form.pincode,
-        },
+        customer_address_line: form.address,
+        customer_address_city: form.city,
+        customer_address_state: form.state,
+        customer_address_country: form.country,
+        customer_address_pincode: form.pincode,
         payment_method: form.payment_method,
-        notes: form.notes,
+        order_notes: form.notes,
         currency: "INR",
-        cart_items: cartItems,
-        pricing: {
-          subtotal,
-          tax,
-          shipping: deliveryCharge,
-          discount: 0,
-          grand_total: total,
-        },
-        delivery: {
-          charge: deliveryCharge,
-          estimated_date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000)
-            .toISOString()
-            .slice(0, 10),
-          delivery_location: form.city || form.pincode || "",
-        },
-        status: "Pending",
-        created_at: new Date().toISOString(),
+        order_status: "order placed",
+        items: items.map(item => ({
+          name: item.name,
+          quantity: item.quantity,
+          unit_price: item.price,
+          total: item.price * item.quantity
+        })),
+        subtotal,
+        tax,
+        shipping: deliveryCharge,
+        discount: 0,
+        grand_total: total,
+        delivery_charge: deliveryCharge,
+        delivery_location: form.city || form.pincode || ""
       };
 
       await fetch(
-        "https://gaurav060705.app.n8n.cloud/webhook-test/2b92c76d-5105-4d4e-a469-99674b6a5e98",
+        "https://gaurav060705.app.n8n.cloud/webhook/2b92c76d-5105-4d4e-a469-99674b6a5e98",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
