@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ShoppingBag, Menu, X } from "lucide-react";
+import { ShoppingBag, Menu, X, Heart } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
+import { useFavorites } from "@/hooks/useFavorites";
 import { SearchDialog } from "@/components/search/SearchDialog";
 
 const categories = [
@@ -21,8 +22,10 @@ const categories = [
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { items } = useCart();
+  const { getTotalFavorites } = useFavorites();
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+  const totalFavorites = getTotalFavorites();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border/20">
@@ -71,6 +74,17 @@ export const Header = () => {
           {/* Actions */}
           <div className="flex items-center space-x-4">
             <SearchDialog />
+            
+            <Link to="/favorites">
+              <Button variant="ghost" size="icon" className="relative">
+                <Heart className="h-5 w-5" />
+                {totalFavorites > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                    {totalFavorites}
+                  </span>
+                )}
+              </Button>
+            </Link>
             
             <Link to="/cart">
               <Button variant="ghost" size="icon" className="relative">

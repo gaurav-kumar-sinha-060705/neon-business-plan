@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { ShoppingBag, Heart } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
+import { useFavorites } from "@/hooks/useFavorites";
+import { toast } from "sonner";
 import { useState } from "react";
 
 import { Product } from "@/data/products";
@@ -11,10 +13,28 @@ interface ProductCardProps {
 
 export const ProductCard = ({ product }: ProductCardProps) => {
   const { addItem } = useCart();
-  const [isLiked, setIsLiked] = useState(false);
+  const { addItem: addToFavorites, removeItem: removeFromFavorites, isItemFavorite } = useFavorites();
+  const isFavorite = isItemFavorite(product.id);
 
   const handleAddToCart = () => {
     addItem(product);
+    toast.success(`${product.name} added to cart!`);
+  };
+
+  const handleToggleFavorite = () => {
+    if (isFavorite) {
+      removeFromFavorites(product.id);
+      toast.success(`${product.name} removed from favorites`);
+    } else {
+      addToFavorites({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        category: product.category
+      });
+      toast.success(`${product.name} added to favorites!`);
+    }
   };
 
   return (
@@ -34,9 +54,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             variant="secondary"
             size="icon"
             className="w-8 h-8 bg-background/80 backdrop-blur-sm hover:bg-primary hover:text-primary-foreground"
-            onClick={() => setIsLiked(!isLiked)}
+            onClick={handleToggleFavorite}
           >
-            <Heart className={`h-4 w-4 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />
+            <Heart className={`h-4 w-4 ${isFavorite ? 'fill-red-500 text-red-500' : ''}`} />
           </Button>
         </div>
 

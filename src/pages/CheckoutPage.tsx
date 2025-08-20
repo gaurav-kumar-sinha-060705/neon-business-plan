@@ -97,8 +97,8 @@ export const CheckoutPage = () => {
           unit_price: item.price,
           total: item.price * item.quantity
         })),
-        subtotal,
-        tax,
+        subtotal: subtotal,
+        tax: tax,
         shipping: deliveryCharge,
         discount: 0,
         grand_total: total,
