@@ -77,7 +77,8 @@ export const CheckoutPage = () => {
 
     setIsSubmitting(true);
     try {
-      const payload = {
+      // Create flattened payload with individual item fields
+      const payload: Record<string, any> = {
         order_id: orderId,
         customer_name: form.customer_name,
         customer_email: form.customer_email,
@@ -91,12 +92,6 @@ export const CheckoutPage = () => {
         order_notes: form.notes,
         currency: "INR",
         order_status: "order placed",
-        items: items.map(item => ({
-          name: item.name,
-          quantity: item.quantity,
-          unit_price: item.price,
-          total: item.price * item.quantity
-        })),
         subtotal: subtotal,
         tax: tax,
         shipping: deliveryCharge,
@@ -105,6 +100,15 @@ export const CheckoutPage = () => {
         delivery_charge: deliveryCharge,
         delivery_location: form.city || form.pincode || ""
       };
+
+      // Add each item as separate fields
+      items.forEach((item, index) => {
+        const itemNum = index + 1;
+        payload[`item${itemNum}_name`] = item.name;
+        payload[`item${itemNum}_quantity`] = item.quantity;
+        payload[`item${itemNum}_unit_price`] = item.price;
+        payload[`item${itemNum}_total`] = item.price * item.quantity;
+      });
 
       await fetch(
         "https://gaurav060705.app.n8n.cloud/webhook/2b92c76d-5105-4d4e-a469-99674b6a5e98",
