@@ -159,7 +159,7 @@ export const CheckoutPage = () => {
       };
 
       await fetch(
-        "https://gaurav060705.app.n8n.cloud/webhook/2b92c76d-5105-4d4e-a469-99674b6a5e98",
+        "https://gaurav060705.app.n8n.cloud/webhook-test/2b92c76d-5105-4d4e-a469-99674b6a5e98",
         {
           method: "POST",
           headers: {
