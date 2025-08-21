@@ -162,9 +162,10 @@ export const CheckoutPage = () => {
         "https://gaurav060705.app.n8n.cloud/webhook/2b92c76d-5105-4d4e-a469-99674b6a5e98",
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          mode: "no-cors",
-          body: JSON.stringify(payload),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload), // no "no-cors"
         }
       );
 
