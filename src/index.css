@@ -161,8 +161,9 @@
   to { opacity: 1; transform: scale(1); }
 }
 
-/* ElevenLabs Voice Assistant Styling */
+/* ElevenLabs Voice Assistant Luxury Styling */
 @layer components {
+  /* Widget positioning */
   elevenlabs-convai {
     position: fixed !important;
     bottom: 24px !important;
@@ -170,53 +171,126 @@
     z-index: 9999 !important;
   }
   
-  /* Style the widget button */
-  elevenlabs-convai::part(button) {
-    background: var(--gradient-luxury) !important;
-    border: 2px solid hsl(var(--primary)) !important;
+  /* Main button styling with luxury theme */
+  elevenlabs-convai [data-testid="trigger-button"],
+  elevenlabs-convai button[role="button"] {
+    background: linear-gradient(135deg, hsl(45 100% 70%), hsl(45 100% 55%)) !important;
+    border: 2px solid hsl(45 100% 70%) !important;
     border-radius: 50% !important;
-    width: 60px !important;
-    height: 60px !important;
-    box-shadow: var(--shadow-luxury) !important;
-    transition: var(--transition-luxury) !important;
+    width: 64px !important;
+    height: 64px !important;
+    box-shadow: 0 25px 50px -12px hsl(45 100% 70% / 0.25), 
+                0 0 0 1px hsl(45 100% 70% / 0.05) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative !important;
   }
   
-  elevenlabs-convai::part(button):hover {
-    transform: scale(1.1) !important;
-    box-shadow: 0 0 30px hsl(var(--primary) / 0.5) !important;
+  elevenlabs-convai [data-testid="trigger-button"]:hover,
+  elevenlabs-convai button[role="button"]:hover {
+    transform: scale(1.15) !important;
+    box-shadow: 0 0 40px hsl(45 100% 70% / 0.6), 
+                0 25px 50px -12px hsl(45 100% 70% / 0.4) !important;
+    border-color: hsl(45 100% 80%) !important;
   }
   
-  /* Style the chat interface */
-  elevenlabs-convai::part(chat) {
-    background: hsl(var(--card)) !important;
-    border: 1px solid hsl(var(--border)) !important;
-    border-radius: 16px !important;
+  /* Add glow effect */
+  elevenlabs-convai [data-testid="trigger-button"]::before,
+  elevenlabs-convai button[role="button"]::before {
+    content: '' !important;
+    position: absolute !important;
+    inset: -4px !important;
+    background: radial-gradient(circle, hsl(45 100% 70% / 0.3), transparent 70%) !important;
+    border-radius: 50% !important;
+    z-index: -1 !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s ease !important;
+  }
+  
+  elevenlabs-convai [data-testid="trigger-button"]:hover::before,
+  elevenlabs-convai button[role="button"]:hover::before {
+    opacity: 1 !important;
+  }
+  
+  /* Chat panel styling */
+  elevenlabs-convai [data-testid="chat-panel"],
+  elevenlabs-convai [role="dialog"] {
+    background: hsl(20 14% 6% / 0.95) !important;
     backdrop-filter: blur(20px) !important;
-    box-shadow: var(--shadow-dark) !important;
-  }
-  
-  elevenlabs-convai::part(chat-header) {
-    background: var(--gradient-luxury) !important;
-    color: hsl(var(--primary-foreground)) !important;
-    font-family: 'Playfair Display', serif !important;
-    font-weight: 600 !important;
-  }
-  
-  elevenlabs-convai::part(chat-messages) {
-    background: hsl(var(--background)) !important;
-    color: hsl(var(--foreground)) !important;
+    border: 1px solid hsl(45 100% 70% / 0.2) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 25px 50px -12px hsl(20 14% 0% / 0.5),
+                0 0 0 1px hsl(45 100% 70% / 0.1) !important;
     font-family: 'Inter', sans-serif !important;
   }
   
-  elevenlabs-convai::part(message-user) {
-    background: hsl(var(--primary) / 0.2) !important;
-    color: hsl(var(--foreground)) !important;
-    border-radius: 12px !important;
+  /* Chat header */
+  elevenlabs-convai [data-testid="chat-header"] {
+    background: linear-gradient(135deg, hsl(45 100% 70%), hsl(45 100% 55%)) !important;
+    color: hsl(20 14% 4%) !important;
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 600 !important;
+    padding: 16px 20px !important;
+    border-radius: 20px 20px 0 0 !important;
   }
   
-  elevenlabs-convai::part(message-assistant) {
-    background: hsl(var(--muted)) !important;
-    color: hsl(var(--foreground)) !important;
-    border-radius: 12px !important;
+  /* Messages area */
+  elevenlabs-convai [data-testid="messages-container"] {
+    background: hsl(20 14% 4%) !important;
+    color: hsl(45 100% 85%) !important;
+    padding: 16px !important;
+  }
+  
+  /* Individual messages */
+  elevenlabs-convai [data-role="user-message"] {
+    background: hsl(45 100% 70% / 0.15) !important;
+    color: hsl(45 100% 85%) !important;
+    border: 1px solid hsl(45 100% 70% / 0.3) !important;
+    border-radius: 16px 16px 4px 16px !important;
+    padding: 12px 16px !important;
+    margin: 8px 0 !important;
+  }
+  
+  elevenlabs-convai [data-role="assistant-message"] {
+    background: hsl(20 14% 12%) !important;
+    color: hsl(45 100% 85%) !important;
+    border: 1px solid hsl(20 14% 20%) !important;
+    border-radius: 16px 16px 16px 4px !important;
+    padding: 12px 16px !important;
+    margin: 8px 0 !important;
+  }
+  
+  /* Input area */
+  elevenlabs-convai [data-testid="input-area"] {
+    background: hsl(20 14% 8%) !important;
+    border-top: 1px solid hsl(45 100% 70% / 0.2) !important;
+    padding: 16px !important;
+  }
+  
+  /* Status indicators */
+  elevenlabs-convai [data-testid="status-indicator"] {
+    color: hsl(45 100% 70%) !important;
+  }
+  
+  /* Scrollbar styling */
+  elevenlabs-convai * {
+    scrollbar-width: thin !important;
+    scrollbar-color: hsl(45 100% 70% / 0.3) hsl(20 14% 8%) !important;
+  }
+  
+  elevenlabs-convai *::-webkit-scrollbar {
+    width: 6px !important;
+  }
+  
+  elevenlabs-convai *::-webkit-scrollbar-track {
+    background: hsl(20 14% 8%) !important;
+  }
+  
+  elevenlabs-convai *::-webkit-scrollbar-thumb {
+    background: hsl(45 100% 70% / 0.3) !important;
+    border-radius: 3px !important;
+  }
+  
+  elevenlabs-convai *::-webkit-scrollbar-thumb:hover {
+    background: hsl(45 100% 70% / 0.5) !important;
   }
 }
