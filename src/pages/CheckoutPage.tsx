@@ -162,16 +162,18 @@ export const CheckoutPage = () => {
         "https://gauravone.app.n8n.cloud/webhook/2b92c76d-5105-4d4e-a469-99674b6a5e98",
         {
           method: "POST",
-          mode: "no-cors",
           headers: {
             "Content-Type": "application/json",
+            "Accept": "application/json",
           },
           body: JSON.stringify(payload),
         }
       );
 
-      // With no-cors mode, we can't read the response status, 
-      // but the request will be sent successfully if the server accepts it
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       console.log("Order submitted successfully");
 
       setIsSuccess(true);
